@@ -8,7 +8,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework implemented trello-like backend. Purrweb enrollment task!
+[Nest](https://github.com/nestjs/nest) framework implemented trello-like backend. And [test frontend also](https://github.com/A-lex-Ra/TSello-frontend)
 
 ## Project setup
 
