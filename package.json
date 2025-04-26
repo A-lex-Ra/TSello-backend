@@ -1,10 +1,10 @@
 {
-  "name": "trello-api",
+  "name": "tsello-backend",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
-  "license": "UNLICENSED",
+  "description": "Backend of task manager inspired by Trello",
+  "author": "A-lex-Ra",
+  "private": false,
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
