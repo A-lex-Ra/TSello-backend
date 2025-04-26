@@ -59,10 +59,11 @@ export class CardsService {
     });
     if (!card) throw new NotFoundException('Карточка не найдена');
 
+    //console.log("card update: №" + cardId +" card dto: "+dto.checked+" "+dto.title+" "+dto.description+" "+dto.order+" "+dto.columnId);
     if (dto.order != null) {
       await this.freePlaceFor(dto.columnId ?? card.columnId, dto.order)
     }
-    console.log("card update: №" + cardId +" card dto: "+dto.checked+" "+dto.title+" "+dto.description+" "+dto.order+" "+dto.columnId);
+    //console.log("card update: №" + cardId +" card dto: "+dto.checked+" "+dto.title+" "+dto.description+" "+dto.order+" "+dto.columnId);
     
     return this.prisma.card.update({
       where: { id: cardId },
