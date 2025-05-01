@@ -12,7 +12,6 @@ export class UsersService {
     const hashed = await bcrypt.hash(dto.password, 10);
     return this.prisma.user.create({
       data: { email: dto.email, password: hashed },
-      omit: { password: true },
     });
   }
 
@@ -23,7 +22,6 @@ export class UsersService {
   async findOne(userId: number) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      omit: { password: true },
     });
     if (!user) throw new NotFoundException('Не найден');
     return user;
@@ -31,7 +29,7 @@ export class UsersService {
 
   async update(userId: number, dto: UpdateUserDto) {
     if (dto.password) dto.password = await bcrypt.hash(dto.password, 10);
-    return this.prisma.user.update({ where: { id: userId }, data: dto, omit: { password: true }, });
+    return this.prisma.user.update({ where: { id: userId }, data: dto });
   }
 
   async remove(userId: number) {
