@@ -6,8 +6,8 @@ import { readFileSync, writeFileSync } from 'node:fs';
 
 async function bootstrap() {
   const httpsOptions = {
-    key: readFileSync('./src/cert/key.pem'),
-    cert: readFileSync('./src/cert/cert.pem'),
+    key: readFileSync('./src/cert/private.key'),
+    cert: readFileSync('./src/cert/certificate.crt'),
   };
 
   const app = await NestFactory.create(
@@ -33,6 +33,6 @@ async function bootstrap() {
   SwaggerModule.setup('swagger', app, document);
   writeFileSync('./openapi-spec.json', JSON.stringify(document, null, 2));
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 443);
 }
 bootstrap();
