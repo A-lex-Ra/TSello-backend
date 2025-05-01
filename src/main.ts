@@ -2,13 +2,21 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { writeFileSync } from 'fs';
+import fs from 'fs';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const httpsOptions = {
+    key: fs.readFileSync('./src/cert/key.pem'),
+    cert: fs.readFileSync('./src/cert/cert.pem'),
+  };
+
+  const app = await NestFactory.create(
+    AppModule,
+    { httpsOptions },
+  );
 
   app.enableCors({
-    origin: 'http://localhost:5173',
+    origin: "*",
     credentials: true,
   });
 
@@ -23,7 +31,7 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
-  writeFileSync('./openapi-spec.json', JSON.stringify(document, null, 2));
+  fs.writeFileSync('./openapi-spec.json', JSON.stringify(document, null, 2));
 
   await app.listen(process.env.PORT ?? 3000);
 }
