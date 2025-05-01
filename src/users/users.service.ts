@@ -10,9 +10,11 @@ export class UsersService {
 
   async create(dto: CreateUserDto) {
     const hashed = await bcrypt.hash(dto.password, 10);
-    return this.prisma.user.create({
+    const user = await this.prisma.user.create({
       data: { email: dto.email, password: hashed },
     });
+    const { password, ...safeUser } = user;
+    return safeUser;
   }
 
   // async findAll() {
@@ -24,12 +26,15 @@ export class UsersService {
       where: { id: userId },
     });
     if (!user) throw new NotFoundException('Не найден');
-    return user;
+    const { password, ...safeUser } = user;
+    return safeUser;
   }
 
   async update(userId: number, dto: UpdateUserDto) {
     if (dto.password) dto.password = await bcrypt.hash(dto.password, 10);
-    return this.prisma.user.update({ where: { id: userId }, data: dto });
+    const user = await this.prisma.user.update({ where: { id: userId }, data: dto });
+    const { password, ...safeUser } = user;
+    return safeUser;
   }
 
   async remove(userId: number) {
