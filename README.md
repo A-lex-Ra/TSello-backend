@@ -12,6 +12,10 @@
 
 ## Project setup
 
+:warning: **Important:** Before running the container, make sure to place your SSL certificates in `./src/cert`, named exactly as `certificate.crt` and `private.key`. Self-signed certificates should work fine for local testing.
+
+---
+
 ```bash
 $ npm install
 ```
@@ -43,3 +47,23 @@ Where `user, password, localhost & dbname` replaced with real values (of your DB
 ```
 npx prisma migrate dev --name init
 ```
+
+### Docker
+
+**Intended for testing only**, the backend and PostgreSQL will start together in a single container.
+A default database (`mydb`) and user (`myuser` / `mypassword`) will be created automatically.
+The Prisma migrations will be applied on startup.
+
+Build the image:
+
+```bash
+docker build -t tsello-backend .
+```
+
+Run the container (exposing port 443):
+
+```bash
+docker run -p 443:443 tsello-backend
+```
+
+> ⚠️ For testing and development only. Not recommended for production.
